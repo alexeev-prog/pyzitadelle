@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "pyzitadelle"
+version = "0.1.0"
+description = "Pyzitadelle is a quick asynchronous framework for testing python applications"
+authors = ["alexeev-prog <alexeev.dev@mail.ru>"]
+license = "GNU LGPL 2.1"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+asyncio = "^3.4.3"
+rich = "^13.9.4"
+click = "^8.1.8"
+requests = "^2.32.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
