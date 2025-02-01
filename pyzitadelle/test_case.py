@@ -67,6 +67,8 @@ class TestCase(BaseTestCase):
 
 		total = end - start
 
+		print_header(f'[cyan]{length} tests runned {round(total, 2)}s[/cyan]', plus_len=15)
+
 		print_header(
 			f"[green]{self.passed} passed[/green], [yellow]{self.warnings} warnings[/yellow], [red]{self.errors} errors[/red]",
 			plus_len=45,

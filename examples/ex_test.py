@@ -14,7 +14,7 @@ def example_test():
 
 @firstcase.test()
 def example_test2():
-	expect(add(1, 2), 3, "1 + 2 should be equal to 3")
+	expect(add(1, 2), 4, "1 + 2 should be equal to 3")
 
 
 @firstcase.test()

@@ -29,15 +29,18 @@ def print_test_result(
 	status: Optional[str] = "success",
 	output: Optional[Any] = None,
 ):
-	width = shutil.get_terminal_size().columns - 8
+	date = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+	width = shutil.get_terminal_size().columns - 8 - len(date)
 
-	print(f"{datetime.now().strftime('%d-%m-%Y %H:%M:%S')} [bold]>>> {label}[/bold]")
+	# print(f"[bold]TEST #{test_num} >>> {datetime.now().strftime('%d-%m-%Y %H:%M:%S')} >>> {label}[/bold]")
+
+	# label = f'TEST #{test_num} >>> {datetime.now().strftime('%d-%m-%Y %H:%M:%S')} >>> {label}'
 
 	if status == "success":
-		print(f"[green]{label.ljust(width)} [{str(percent).rjust(3)}%][/green]")
+		print(f"{date} [green]{label.ljust(width)} [{str(percent).rjust(3)}%][/green]")
 	elif status == "error":
-		print(f"[red]{label.ljust(width)} [{str(percent).rjust(3)}%][/red]")
+		print(f"{date} [red]{label.ljust(width)} [{str(percent).rjust(3)}%][/red]")
 		print(f"[dim italic] > {output}[/dim italic]\n")
 	elif status == "warning":
-		print(f"[yellow]{label.ljust(width)} [{str(percent).rjust(3)}%][/yellow]")
+		print(f"{date} [yellow]{label.ljust(width)} [{str(percent).rjust(3)}%][/yellow]")
 		print(f"[dim italic] > {output}[/dim italic]\n")
