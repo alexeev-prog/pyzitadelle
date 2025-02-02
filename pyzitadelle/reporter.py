@@ -6,7 +6,7 @@ from typing import Any, Optional
 from rich import print
 
 
-def print_header(label: str, plus_len: int = 0, style: str = 'bold'):
+def print_header(label: str, plus_len: int = 0, style: str = "bold"):
 	width = shutil.get_terminal_size().columns - 2 + plus_len
 
 	line = f" {label} ".center(width, "=")
@@ -29,15 +29,17 @@ def print_test_result(
 	status: Optional[str] = "success",
 	output: Optional[Any] = None,
 ):
-	date = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+	date = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 	width = shutil.get_terminal_size().columns - 8 - len(date)
 
 	if status == "success":
 		print(f"{date} [green]{label.ljust(width)} [{str(percent).rjust(3)}%][/green]")
 	elif status == "error":
 		print(f"\n{date} [red]{label.ljust(width)} [{str(percent).rjust(3)}%][/red]")
-		print_header(f'ERROR: {label}', style='bold red')
+		print_header(f"ERROR: {label}", style="bold red")
 		print(f"[red]{output}[/red]")
 	elif status == "warning":
-		print(f"{date} [yellow]{label.ljust(width)} [{str(percent).rjust(3)}%][/yellow]")
+		print(
+			f"{date} [yellow]{label.ljust(width)} [{str(percent).rjust(3)}%][/yellow]"
+		)
 		print(f"[red] > {output}[/red]")

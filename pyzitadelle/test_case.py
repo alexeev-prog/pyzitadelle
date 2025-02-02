@@ -1,8 +1,9 @@
-from dataclasses import dataclass, field
-from time import time
-from typing import Callable, Any
 import traceback
+from dataclasses import dataclass, field
 from functools import wraps
+from time import time
+from typing import Any, Callable
+
 from pyzitadelle.exceptions import TestError
 from pyzitadelle.reporter import print_header, print_platform, print_test_result
 
@@ -35,14 +36,19 @@ class TestCase(BaseTestCase):
 		"""
 		Constructs a new instance.
 
-		:param      label:  The label
-		:type       label:  str
+		:param		label:	The label
+		:type		label:	str
 		"""
 		super().__init__(label)
 
 	def test(self, count_of_launchs: int = 1):
 		def wrapper(func, *args, **kwargs):
-			self.tests[func.__name__] = TestInfo(handler=func, args=args, kwargs=kwargs, count_of_launchs=count_of_launchs)
+			self.tests[func.__name__] = TestInfo(
+				handler=func,
+				args=args,
+				kwargs=kwargs,
+				count_of_launchs=count_of_launchs,
+			)
 			return func
 
 		return wrapper
@@ -58,12 +64,20 @@ class TestCase(BaseTestCase):
 				results.append(result)
 			except AssertionError:
 				print_test_result(
-					percent, test_name, status="warning", output=f"AssertionError (use pyzitadelle.test_case.expect, not assert)\n{traceback.format_exc()}"
+					percent,
+					test_name,
+					status="warning",
+					output=f"AssertionError (use pyzitadelle.test_case.expect, not assert)\n{traceback.format_exc()}",
 				)
 				self.errors += 1
 				self.warnings += 1
 			except TestError:
-				print_test_result(percent, test_name, status="error", output=str(traceback.format_exc()))
+				print_test_result(
+					percent,
+					test_name,
+					status="error",
+					output=str(traceback.format_exc()),
+				)
 				self.errors += 1
 			else:
 				self.passed += 1
@@ -83,7 +97,9 @@ class TestCase(BaseTestCase):
 		end = time()
 		total = end - start
 
-		print_header(f'[cyan]{length} tests runned {round(total, 2)}s[/cyan]', plus_len=15)
+		print_header(
+			f"[cyan]{length} tests runned {round(total, 2)}s[/cyan]", plus_len=15
+		)
 
 		print_header(
 			f"[green]{self.passed} passed[/green], [yellow]{self.warnings} warnings[/yellow], [red]{self.errors} errors[/red]",
@@ -100,8 +116,8 @@ class AIOTestCase(BaseTestCase):
 		"""
 		Constructs a new instance.
 
-		:param      label:  The label
-		:type       label:  str
+		:param		label:	The label
+		:type		label:	str
 		"""
 		super().__init__(label)
 
@@ -109,7 +125,12 @@ class AIOTestCase(BaseTestCase):
 		def decorator(func):
 			@wraps(func)
 			async def wrapper(*args, **kwargs):
-				self.tests[func.__name__] = TestInfo(handler=func, args=args, kwargs=kwargs, count_of_launchs=count_of_launchs)
+				self.tests[func.__name__] = TestInfo(
+					handler=func,
+					args=args,
+					kwargs=kwargs,
+					count_of_launchs=count_of_launchs,
+				)
 				return func
 
 			return wrapper
@@ -127,12 +148,20 @@ class AIOTestCase(BaseTestCase):
 				results.append(result)
 			except AssertionError:
 				print_test_result(
-					percent, test_name, status="warning", output=f"AssertionError (use pyzitadelle.test_case.expect, not assert)\n{traceback.format_exc()}"
+					percent,
+					test_name,
+					status="warning",
+					output=f"AssertionError (use pyzitadelle.test_case.expect, not assert)\n{traceback.format_exc()}",
 				)
 				self.errors += 1
 				self.warnings += 1
 			except TestError:
-				print_test_result(percent, test_name, status="error", output=str(traceback.format_exc()))
+				print_test_result(
+					percent,
+					test_name,
+					status="error",
+					output=str(traceback.format_exc()),
+				)
 				self.errors += 1
 			else:
 				self.passed += 1
@@ -152,7 +181,9 @@ class AIOTestCase(BaseTestCase):
 		end = time()
 		total = end - start
 
-		print_header(f'[cyan]{length} tests runned {round(total, 2)}s[/cyan]', plus_len=15)
+		print_header(
+			f"[cyan]{length} tests runned {round(total, 2)}s[/cyan]", plus_len=15
+		)
 
 		print_header(
 			f"[green]{self.passed} passed[/green], [yellow]{self.warnings} warnings[/yellow], [red]{self.errors} errors[/red]",

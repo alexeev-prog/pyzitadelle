@@ -1,5 +1,6 @@
 import asyncio
-from pyzitadelle.test_case import TestCase, expect, AIOTestCase
+
+from pyzitadelle.test_case import AIOTestCase, TestCase, expect
 
 firstcase = TestCase()
 aiocase = AIOTestCase()
