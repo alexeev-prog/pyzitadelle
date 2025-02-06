@@ -1,3 +1,9 @@
+commit b4c81d3f7677e9a6b28684a29867b107050336f5
+Author: alexeev-prog <alexeev.dev@mail.ru>
+Date:   Thu Feb 6 23:25:46 2025 +0700
+
+    imrpove docs and codestyle
+
 commit 3adfaf523f5ec13c1a5041b3b3c4d36853b8594c
 Author: alexeev-prog <alexeev.dev@mail.ru>
 Date:   Thu Feb 6 23:22:27 2025 +0700
