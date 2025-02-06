@@ -4,6 +4,31 @@ from datetime import datetime
 from typing import Any, Optional
 
 from rich import print
+from rich.table import Table
+from rich.console import Console
+from rich import box
+
+
+def print_results_table(total: int, passed: int, warnings: int, errors: int, skipped: int):
+	table = Table(title="Tests Result", expand=True, box=box.ROUNDED)
+
+	table.add_column("N", style="cyan")
+	table.add_column("Tests encountered", style="cyan")
+	table.add_column("Percent", style="cyan")
+
+	passed_percent = int((passed / total) * 100)
+	warnings_percent = int((warnings / total) * 100)
+	errors_percent = int((errors / total) * 100)
+	skipped_percent = int((skipped / total) * 100)
+
+	table.add_row(str(total), "Total", "100%")
+	table.add_row(str(passed), "Passed", f'{passed_percent}%', style="black bold on green")
+	table.add_row(str(warnings), "Warnings", f'{warnings_percent}%', style="black bold on yellow")
+	table.add_row(str(errors), "Errors", f'{errors_percent}%', style="black bold on red")
+	table.add_row(str(skipped), "Skipped", f'{skipped_percent}%', style="black bold on blue")
+
+	console = Console()
+	console.print(table)
 
 
 def print_header(label: str, plus_len: int = 0, style: str = "bold"):
@@ -39,6 +64,10 @@ def print_platform(items: int):
 	print(f"[white bold]Collected {items} items[/white bold]\n")
 
 
+def print_comment(comment: str):
+	print(f'[dim]{comment}[/dim]')
+
+
 def print_test_result(
 	percent: str,
 	label: str,
@@ -58,16 +87,18 @@ def print_test_result(
 	:type       output:   Any
 	"""
 	date = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-	width = shutil.get_terminal_size().columns - 8 - len(date)
+	width = shutil.get_terminal_size().columns - 13 - len(date)
 
 	if status == "success":
-		print(f"{date} [green]{label.ljust(width)} [{str(percent).rjust(3)}%][/green]")
+		print(f"[black bold on green]PASS[/black bold on green] {date} [green]{label.ljust(width)}[/green][dim white][{str(percent).rjust(3)}%][/dim white]")
 	elif status == "error":
-		print(f"\n{date} [red]{label.ljust(width)} [{str(percent).rjust(3)}%][/red]")
+		print(f"\n[black bold on red]ERR [/black bold on red] {date} [red]{label.ljust(width)}[/red][dim white][{str(percent).rjust(3)}%][/dim white]")
 		print_header(f"ERROR: {label}", style="bold red")
 		print(f"[red]{output}[/red]")
 	elif status == "warning":
 		print(
-			f"{date} [yellow]{label.ljust(width)} [{str(percent).rjust(3)}%][/yellow]"
+			f"[black bold on yellow]WARN[/black bold on yellow] {date} [yellow]{label.ljust(width)}[/yellow][dim white][{str(percent).rjust(3)}%][/dim white]"
 		)
-		print(f"[red] > {output}[/red]")
+		print(f"[yellow] > {output}[/yellow]\n")
+	elif status == 'skip':
+		print(f"[black bold on blue]SKIP[/black bold on blue] {date} [blue]{label.ljust(width)}[/blue][dim white][{str(percent).rjust(3)}%][/dim white]")

@@ -30,6 +30,17 @@ class TestError(Exception):
 		return f"TestError has been raised. {self.get_explanation()}"
 
 
+class SkippedTestException(TestError):
+	def __str__(self):
+		"""
+		Returns a string representation of the object.
+
+		:returns:	String representation of the object.
+		:rtype:		str
+		"""
+		return f"SkippedTestException has been raised. {self.get_explanation()}"
+
+
 class TestValidationError(TestError):
 	def __str__(self):
 		"""

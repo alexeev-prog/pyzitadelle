@@ -1,24 +1,10 @@
-import traceback
-import inspect
-import asyncio
-from dataclasses import dataclass, field
 from time import time
-from typing import Any, Callable, Awaitable, Union
+from typing import Any, Callable
 
 from pyzitadelle.exceptions import TestError
-from pyzitadelle.reporter import print_header, print_platform, print_test_result
-
-
-@dataclass
-class TestInfo:
-	"""
-	This class describes a test information.
-	"""
-
-	handler: Union[Callable, Awaitable]
-	args: list = field(default_factory=list)
-	kwargs: list = field(default_factory=dict)
-	count_of_launchs: int = 1
+from pyzitadelle.sessions import Runner
+from pyzitadelle.reporter import print_header, print_results_table
+from pyzitadelle.standard import TestInfo
 
 
 class BaseTestCase:
@@ -26,7 +12,7 @@ class BaseTestCase:
 	This class describes a base test case.
 	"""
 
-	def __init__(self, label: str = "AIOTestCase"):
+	def __init__(self, label: str = "TestCase"):
 		"""
 		Constructs a new instance.
 
@@ -36,6 +22,7 @@ class BaseTestCase:
 		self.label = label
 
 		self.warnings = 0
+		self.skipped = 0
 		self.errors = 0
 		self.passed = 0
 
@@ -56,7 +43,7 @@ class TestCase(BaseTestCase):
 		"""
 		super().__init__(label)
 
-	def test(self, count_of_launchs: int = 1) -> Callable:
+	def test(self, comment: str = None, count_of_launchs: int = 1, skip_test: bool = False) -> Callable:
 		"""
 		Add test to environment
 		
@@ -68,6 +55,8 @@ class TestCase(BaseTestCase):
 		"""
 		def wrapper(func, *args, **kwargs):
 			self.tests[func.__name__] = TestInfo(
+				skip=skip_test,
+				comment=comment.format(**kwargs) if comment is not None else None,
 				handler=func,
 				args=args,
 				kwargs=kwargs,
@@ -77,71 +66,24 @@ class TestCase(BaseTestCase):
 
 		return wrapper
 
-	def _launch_test_chain(self, length: int):
-		"""
-		Launch testing chain
-
-		:param      length:  The length of tests list
-		:type       length:  int
-		"""
-		results = []
-
-		for test_num, (test_name, test) in enumerate(self.tests.items(), start=1):
-			percent = int((test_num / length) * 100)
-
-			try:
-				for _ in range(test.count_of_launchs):
-					if inspect.iscoroutinefunction(test.handler):
-						result = asyncio.run(test.handler(*test.args, **test.kwargs))
-					else:
-						result = test.handler(*test.args, **test.kwargs)
-
-				results.append(result)
-			except AssertionError:
-				print_test_result(
-					percent,
-					test_name,
-					status="error",
-					output=f"AssertionError (use pyzitadelle.test_case.expect, not assert)\n{traceback.format_exc()}",
-				)
-				self.errors += 1
-			except TestError:
-				print_test_result(
-					percent,
-					test_name,
-					status="error",
-					output=str(traceback.format_exc()),
-				)
-				self.errors += 1
-			else:
-				self.passed += 1
-
-				print_test_result(percent, test_name)
-
 	def run(self):
 		"""
 		Run testing
 		"""
-		print_header("test session starts")
-
-		length = len(self.tests)
-		print_platform(length)
+		runner = Runner(self.tests, self)
 
 		start = time()
 
-		self._launch_test_chain(length)
+		runner.launch_test_chain()
 
 		end = time()
 		total = end - start
 
 		print_header(
-			f"[cyan]{length} tests runned {round(total, 2)}s[/cyan]", plus_len=15
+			f"[cyan]{len(self.tests)} tests runned {round(total, 2)}s[/cyan]", plus_len=15
 		)
 
-		print_header(
-			f"[green]{self.passed} passed[/green], [yellow]{self.warnings} warnings[/yellow], [red]{self.errors} errors[/red]",
-			plus_len=45,
-		)
+		print_results_table(len(self.tests), self.passed, self.warnings, self.errors, self.skipped)
 
 
 def expect(lhs: Any, rhs: Any, message: str) -> bool:
