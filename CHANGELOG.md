@@ -1,3 +1,9 @@
+commit f8c52814c60c71c338b883abe357d9c33388c47a
+Author: alexeev-prog <alexeev.dev@mail.ru>
+Date:   Thu Feb 6 23:28:07 2025 +0700
+
+    add doxygen styles
+
 commit b4c81d3f7677e9a6b28684a29867b107050336f5
 Author: alexeev-prog <alexeev.dev@mail.ru>
 Date:   Thu Feb 6 23:25:46 2025 +0700

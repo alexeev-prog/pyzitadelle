@@ -127,3 +127,23 @@ def example_test6():
 
 firstcase.run()
 ```
+
+## 💻 Specifications
+
+```
+pyzitadelle/
+├── coverage.py
+├── debug
+│  ├── __init__.py
+│  └── measurement.py
+├── exceptions.py
+├── fixtures.py
+├── __init__.py
+├── reporter.py
+├── sessions.py
+├── standard.py
+├── test_case.py
+└── utils.py
+
+2 directories, 11 files
+```
