@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Callable, Awaitable, Union
+from typing import Awaitable, Callable, Union
 
 
 @dataclass

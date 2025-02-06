@@ -1,9 +1,15 @@
-import inspect
 import asyncio
-from typing import Any
+import inspect
 import traceback
-from pyzitadelle.exceptions import TestError, SkippedTestException
-from pyzitadelle.reporter import print_header, print_platform, print_test_result, print_comment
+from typing import Any
+
+from pyzitadelle.exceptions import SkippedTestException, TestError
+from pyzitadelle.reporter import (
+	print_comment,
+	print_header,
+	print_platform,
+	print_test_result,
+)
 from pyzitadelle.standard import TestInfo
 
 
@@ -16,10 +22,10 @@ class Runner:
 		"""
 		Constructs a new instance.
 
-		:param      tests:     The tests
-		:type       tests:     int
-		:param      testcase:  The testcase
-		:type       testcase:  TestCase
+		:param		tests:	   The tests
+		:type		tests:	   int
+		:param		testcase:  The testcase
+		:type		testcase:  TestCase
 		"""
 		self.tests = tests
 		self.tests_count = len(self.tests)
@@ -37,17 +43,17 @@ class Runner:
 		"""
 		Run test launch cycle
 
-		:param      test_name:  The test name
-		:type       test_name:  str
-		:param      test:       The test
-		:type       test:       TestInfo
+		:param		test_name:	The test name
+		:type		test_name:	str
+		:param		test:		The test
+		:type		test:		TestInfo
 
-		:returns:   function result
-		:rtype:     Any
+		:returns:	function result
+		:rtype:		Any
 		"""
 		for n in range(test.count_of_launchs):
 			if test.count_of_launchs > 1:
-				print(f'Launch {test_name}: {n + 1}/{test.count_of_launchs}')
+				print(f"Launch {test_name}: {n + 1}/{test.count_of_launchs}")
 
 			if inspect.iscoroutinefunction(test.handler):
 				result = asyncio.run(test.handler(*test.args, **test.kwargs))
@@ -60,26 +66,28 @@ class Runner:
 		"""
 		Check warnings in test
 
-		:param      result:     The result
-		:type       result:     Any
-		:param      results:    The results
-		:type       results:    list
-		:param      percent:    The percent
-		:type       percent:    int
-		:param      test_name:  The test name
-		:type       test_name:  str
+		:param		result:		The result
+		:type		result:		Any
+		:param		results:	The results
+		:type		results:	list
+		:param		percent:	The percent
+		:type		percent:	int
+		:param		test_name:	The test name
+		:type		test_name:	str
 		"""
 		if len(results) > 0 and results[-1] == result and result is not None:
 			print_test_result(
 				percent,
 				test_name,
 				status="warning",
-				output=f'Last result is equals current result ({results[-1]} == {result})',
+				output=f"Last result is equals current result ({results[-1]} == {result})",
 			)
 			self.testcase.warnings += 1
 			self.testcase.passed += 1
 
-	def _processing_tests_execution(self, test_num: int, test_name: str, test: TestInfo):
+	def _processing_tests_execution(
+		self, test_num: int, test_name: str, test: TestInfo
+	):
 		percent = int((test_num / self.tests_count) * 100)
 		results = []
 
@@ -94,11 +102,7 @@ class Runner:
 			results.append(result)
 		except SkippedTestException:
 			self.testcase.skipped += 1
-			print_test_result(
-				percent,
-				test_name,
-				status="skip"
-			)
+			print_test_result(percent, test_name, status="skip")
 		except AssertionError:
 			print_test_result(
 				percent,
@@ -124,10 +128,10 @@ class Runner:
 		"""
 		Launch test chain
 
-		:raises     SkippedTestException:  skip test
+		:raises		SkippedTestException:  skip test
 		"""
 		for test_num, (test_name, test) in enumerate(self.tests.items(), start=1):
 			self._processing_tests_execution(test_num, test_name, test)
 
 			if test.comment is not None:
-				print_comment(f'Comment {test_name}: [reset]{test.comment}[/reset]\n')
+				print_comment(f"Comment {test_name}: [reset]{test.comment}[/reset]\n")

@@ -9,7 +9,7 @@
     <a href="https://alexeev-prog.github.io/pyzitadelle/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="#-why-choose-pyechonext">Why Choose pyzitadelle?</a>
+    <a href="#-why-choose-pyzitadelle">Why Choose pyzitadelle?</a>
     ·
     <a href="#-key-features">Key Features</a>
     ·
@@ -72,7 +72,7 @@ pyEchoNext is available on [PyPI](https://pypi.org/project/pyzitadelle). Simply 
 pip install pyzitadelle
 ```
 
-Once installed, you can start using the library in your Python projects. Check out the [documentation](https://alexeev-prog.github.io/pyEchoNext) for detailed usage examples and API reference.
+Once installed, you can start using the library in your Python projects. Check out the [documentation](https://alexeev-prog.github.io/pyzitadelle) for detailed usage examples and API reference.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -89,29 +89,40 @@ def add(a: int, b: int) -> int:
   return a + b
 
 
-@firstcase.test()
-async def example_test1():
-  expect(add(1, 2), 3, "1 + 2 should be equal to 3")
+@firstcase.test(comment="async test example", count_of_launchs=2)
+async def example_test1(a: int = 2):
+  expect(add(1, a), a + 1, "1 + 2 should be equal to 3")
+  return 3
 
 
 @firstcase.test()
 def example_test2():
-  expect(add(1, 2), 3, "1 + 2 should be equal to 3")
+  assert add(1, 2) == 3
+  return 3
 
 
-@firstcase.test()
+@firstcase.test(skip_test=True)
 def example_test3():
-  expect(add(1, 2), 3, "1 + 2 should be equal to 3")
+  expect(add(1, 2), 4, "1 + 2 should be equal to 3")
+  return 4
 
 
 @firstcase.test()
 def example_test4():
   expect(add(10, 2), 12, "10 + 2 should be equal to 12")
+  return 12
 
 
 @firstcase.test()
 def example_test5():
-  assert add(1, 2) == 3
+  assert add(1, 2) == 4
+  return 4
+
+
+@firstcase.test()
+def example_test6():
+  assert add(20, 40) == 60
+  return 60
 
 
 firstcase.run()

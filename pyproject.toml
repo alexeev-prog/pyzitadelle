@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyzitadelle"
-version = "0.1.1"
+version = "0.2.1"
 description = "Pyzitadelle is a quick asynchronous framework for testing python applications"
 authors = ["alexeev-prog <alexeev.dev@mail.ru>"]
 license = "GNU LGPL 2.1"

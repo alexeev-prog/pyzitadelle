@@ -1,3 +1,21 @@
+commit 3adfaf523f5ec13c1a5041b3b3c4d36853b8594c
+Author: alexeev-prog <alexeev.dev@mail.ru>
+Date:   Thu Feb 6 23:22:27 2025 +0700
+
+    fix architecture and improve testing
+
+commit 24d04bd0502a39b1af2c8099fbac5b72fdaed7a2
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Thu Feb 6 22:17:52 2025 +0700
+
+    Create static.yml
+
+commit cf4cc2ed5e91d39c39a39e9d91d489938a449449
+Author: alexeev-prog <alexeev.dev@mail.ru>
+Date:   Thu Feb 6 22:16:59 2025 +0700
+
+    fix bugs and improve code
+
 commit 68a7d1d378f6db09024cb7eb1c9467a585dc620f
 Author: alexeev-prog <alexeev.dev@mail.ru>
 Date:   Sun Feb 2 12:17:24 2025 +0700
