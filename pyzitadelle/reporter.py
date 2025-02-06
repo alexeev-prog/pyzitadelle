@@ -7,6 +7,16 @@ from rich import print
 
 
 def print_header(label: str, plus_len: int = 0, style: str = "bold"):
+	"""
+	Prints a header.
+
+	:param      label:     The label
+	:type       label:     str
+	:param      plus_len:  The plus length
+	:type       plus_len:  int
+	:param      style:     The style
+	:type       style:     str
+	"""
 	width = shutil.get_terminal_size().columns - 2 + plus_len
 
 	line = f" {label} ".center(width, "=")
@@ -15,6 +25,12 @@ def print_header(label: str, plus_len: int = 0, style: str = "bold"):
 
 
 def print_platform(items: int):
+	"""
+	Prints a platform.
+
+	:param      items:  The items
+	:type       items:  int
+	"""
 	print(f"[white]platform: [reset]{platform.platform()}[/white]")
 	print(f"[white]version: [reset]{platform.version()}[/white]")
 	print(f"[white]release: [reset]{platform.release()}[/white]")
@@ -29,6 +45,18 @@ def print_test_result(
 	status: Optional[str] = "success",
 	output: Optional[Any] = None,
 ):
+	"""
+	Prints a test result.
+
+	:param      percent:  The percent
+	:type       percent:  str
+	:param      label:    The label
+	:type       label:    str
+	:param      status:   The status
+	:type       status:   str
+	:param      output:   The output
+	:type       output:   Any
+	"""
 	date = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 	width = shutil.get_terminal_size().columns - 8 - len(date)
 

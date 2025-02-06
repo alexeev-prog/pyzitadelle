@@ -1,39 +1,35 @@
-import asyncio
-
-from pyzitadelle.test_case import AIOTestCase, TestCase, expect
+from pyzitadelle.test_case import TestCase, expect
 
 firstcase = TestCase()
-aiocase = AIOTestCase()
 
 
 def add(a: int, b: int) -> int:
 	return a + b
 
 
-@aiocase.test()
-async def aioexample_test():
-	expect(add(1, 2), 3, "1 + 2 should be equal to 3")
-
-
 @firstcase.test()
-def example_test():
+async def example_test1():
 	expect(add(1, 2), 3, "1 + 2 should be equal to 3")
 
 
 @firstcase.test()
 def example_test2():
-	expect(add(1, 2), 4, "1 + 2 should be equal to 3")
+	expect(add(1, 2), 3, "1 + 2 should be equal to 3")
 
 
 @firstcase.test()
 def example_test3():
-	expect(add(10, 2), 12, "10 + 2 should be equal to 12")
+	expect(add(1, 2), 3, "1 + 2 should be equal to 3")
 
 
 @firstcase.test()
 def example_test4():
-	assert add(1, 2) == 4
+	expect(add(10, 2), 12, "10 + 2 should be equal to 12")
+
+
+@firstcase.test()
+def example_test5():
+	assert add(1, 2) == 3
 
 
 firstcase.run()
-asyncio.run(aiocase.run())
