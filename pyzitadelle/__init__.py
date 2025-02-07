@@ -21,7 +21,7 @@ USA
 import requests
 from rich import print
 
-__version__ = "0.1.1"
+__version__ = "0.2.1"
 
 
 def check_for_update():
@@ -55,7 +55,7 @@ def check_for_update():
 check_for_update()
 
 print(f"""[white]
-				 _ __		   __	 ____
+                 _ __          __    ____
    ___ __ _____ (_) /____ ____/ /__ / / /__
   / _ \\/ // /_ // / __/ _ `/ _	 / -_) // -_)
  / .__/\\_, //__/_/\\__/\\_,_/\\_,_/\\__/_/_/\\__/	  [bold]v{__version__}[/bold]

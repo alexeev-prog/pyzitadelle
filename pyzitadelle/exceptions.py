@@ -31,6 +31,18 @@ class TestError(Exception):
 
 
 class SkippedTestException(TestError):
+	def __init__(self, *args):
+		"""
+		Constructs a new instance.
+
+		:param		args:  The arguments
+		:type		args:  list
+		"""
+		if args:
+			self.message = args[0]
+		else:
+			self.message = 'SkippedTest'
+
 	def __str__(self):
 		"""
 		Returns a string representation of the object.
@@ -38,7 +50,7 @@ class SkippedTestException(TestError):
 		:returns:	String representation of the object.
 		:rtype:		str
 		"""
-		return f"SkippedTestException has been raised. {self.get_explanation()}"
+		return f'{self.message}'
 
 
 class TestValidationError(TestError):

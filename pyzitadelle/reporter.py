@@ -82,6 +82,8 @@ def print_test_result(
 	label: str,
 	status: Optional[str] = "success",
 	output: Optional[Any] = None,
+	postmessage: Optional[str] = '',
+	comment: Optional[str] = None
 ):
 	"""
 	Prints a test result.
@@ -96,24 +98,28 @@ def print_test_result(
 	:type		output:	  Any
 	"""
 	date = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-	width = shutil.get_terminal_size().columns - 13 - len(date)
+	width = shutil.get_terminal_size().columns - 13 - len(date) - len(postmessage)
+
+	if comment is not None:
+		label = f'[dim]{label}[/dim] [white]{comment}[/white]'
+		width += 26
 
 	if status == "success":
 		print(
-			f"[black bold on green]PASS[/black bold on green] {date} [green]{label.ljust(width)}[/green][dim white][{str(percent).rjust(3)}%][/dim white]"
+			f"[black bold on green]PASS[/black bold on green] {date} [green]{label.ljust(width)}[/green][black on blue]{postmessage}[/black on blue] [dim green][{str(percent).rjust(3)}%][/dim green]"
 		)
 	elif status == "error":
 		print(
-			f"\n[black bold on red]ERR [/black bold on red] {date} [red]{label.ljust(width)}[/red][dim white][{str(percent).rjust(3)}%][/dim white]"
+			f"\n[black bold on red]ERR [/black bold on red] {date} [red]{label.ljust(width)}[/red][black on blue]{postmessage}[/black on blue] [dim red][{str(percent).rjust(3)}%][/dim red]"
 		)
 		print_header(f"ERROR: {label}", style="bold red")
 		print(f"[red]{output}[/red]")
 	elif status == "warning":
 		print(
-			f"[black bold on yellow]WARN[/black bold on yellow] {date} [yellow]{label.ljust(width)}[/yellow][dim white][{str(percent).rjust(3)}%][/dim white]"
+			f"[black bold on yellow]WARN[/black bold on yellow] {date} [yellow]{label.ljust(width)}[/yellow][black on blue]{postmessage}[/black on blue] [dim yellow][{str(percent).rjust(3)}%][/dim yellow]"
 		)
 		print(f"[yellow] > {output}[/yellow]\n")
 	elif status == "skip":
 		print(
-			f"[black bold on blue]SKIP[/black bold on blue] {date} [blue]{label.ljust(width)}[/blue][dim white][{str(percent).rjust(3)}%][/dim white]"
+			f"[black bold on blue]SKIP[/black bold on blue] {date} [blue]{label.ljust(width)}[/blue][black on blue]{postmessage}[/black on blue] [dim blue][{str(percent).rjust(3)}%][/dim blue]"
 		)

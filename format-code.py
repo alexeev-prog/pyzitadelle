@@ -113,7 +113,7 @@ def main():
 		if len(set(root.split("/")).intersection(IGNORED_DIRS)) > 0:
 			continue
 		for file in files:
-			if file.endswith(py_extensions):
+			if file.endswith(py_extensions) and file != '__init__.py':
 				print(f"{BOLD}Format {file}: {root}/{file}{NC}")
 				os.system(f"{RUFF} check {root}/{file} --fix")
 				os.system(f"{RUFF} format {root}/{file}")

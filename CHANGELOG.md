@@ -1,3 +1,9 @@
+commit c4ca66c44704b0699ad58f04df511a3f9ca91e20
+Author: alexeev-prog <alexeev.dev@mail.ru>
+Date:   Thu Feb 6 23:30:59 2025 +0700
+
+    fix docs
+
 commit f8c52814c60c71c338b883abe357d9c33388c47a
 Author: alexeev-prog <alexeev.dev@mail.ru>
 Date:   Thu Feb 6 23:28:07 2025 +0700
