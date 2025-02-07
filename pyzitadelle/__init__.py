@@ -25,39 +25,41 @@ __version__ = "0.2.1"
 
 
 def check_for_update():
-	"""
-	Check for update in pypi
-	"""
-	try:
-		response = requests.get("https://pypi.org/pypi/pyzitadelle/json").json()
+    """
+    Check for update in pypi
+    """
+    try:
+        response = requests.get("https://pypi.org/pypi/pyzitadelle/json").json()
 
-		latest_version = response["info"]["version"]
+        latest_version = response["info"]["version"]
 
-		latest_digits = [int(n) for n in latest_version.split(".")]
-		current_digits = [int(n) for n in __version__.split(".")]
+        latest_digits = [int(n) for n in latest_version.split(".")]
+        current_digits = [int(n) for n in __version__.split(".")]
 
-		if sum(latest_digits) > sum(current_digits):
-			message = f"New version of library pyzitadelle available: {latest_version}"
+        if sum(latest_digits) > sum(current_digits):
+            message = f"New version of library pyzitadelle available: {latest_version}"
 
-			print(
-				f"[red]{'#' * (len(message) + 4)}\n#[/red][bold yellow] {message} [/bold yellow][red]#\n{'#' * (len(message) + 4)}[/red]\n"
-			)
-		elif sum(latest_digits) < sum(current_digits):
-			print(
-				f"[yellow]You use [bold]UNSTABLE[/bold] branch of pyzitadelle. Stable version: {latest_version}, your version: {__version__}[/yellow]\n"
-			)
-	except (requests.RequestException, KeyError):
-		print(
-			f"[dim]Version updates information not available. Your version: {__version__}[/dim]"
-		)
+            print(
+                f"[red]{'#' * (len(message) + 4)}\n#[/red][bold yellow] {message} [/bold yellow][red]#\n{'#' * (len(message) + 4)}[/red]\n"
+            )
+        elif sum(latest_digits) < sum(current_digits):
+            print(
+                f"[yellow]You use [bold]UNSTABLE[/bold] branch of pyzitadelle. Stable version: {latest_version}, your version: {__version__}[/yellow]\n"
+            )
+    except (requests.RequestException, KeyError):
+        print(
+            f"[dim]Version updates information not available. Your version: {__version__}[/dim]"
+        )
 
 
 check_for_update()
 
-print(f"""[white]
+print(
+    f"""[white]
                  _ __          __    ____
    ___ __ _____ (_) /____ ____/ /__ / / /__
   / _ \\/ // /_ // / __/ _ `/ _	 / -_) // -_)
  / .__/\\_, //__/_/\\__/\\_,_/\\_,_/\\__/_/_/\\__/	  [bold]v{__version__}[/bold]
 /_/	  /___/[/white]
-	""")
+	"""
+)

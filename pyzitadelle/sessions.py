@@ -1,16 +1,11 @@
 import asyncio
 import inspect
 import traceback
-from typing import Any, List, Union, Callable, Awaitable
+from typing import Any, Awaitable, Callable, List, Union
 
 from pyzitadelle.exceptions import SkippedTestException, TestError
-from pyzitadelle.reporter import (
-	print_comment,
-	print_header,
-	print_platform,
-	print_test_result,
-)
-from pyzitadelle.standard import SkipMarker, ExpectFailMarkup
+from pyzitadelle.reporter import print_header, print_platform, print_test_result
+from pyzitadelle.standard import ExpectFailMarkup, SkipMarker
 
 
 class Runner:
@@ -43,17 +38,17 @@ class Runner:
 		"""
 		Run test with args
 
-		:param      test:    The test
-		:type       test:    TestInfo
-		:param      args:    The arguments
-		:type       args:    list
-		:param      kwargs:  The keywords arguments
-		:type       kwargs:  dictionary
+		:param		test:	 The test
+		:type		test:	 TestInfo
+		:param		args:	 The arguments
+		:type		args:	 list
+		:param		kwargs:	 The keywords arguments
+		:type		kwargs:	 dictionary
 
-		:returns:   function result
-		:rtype:     Any
+		:returns:	function result
+		:rtype:		Any
 		"""
-		if inspect.iscoroutinefunction(test):	
+		if inspect.iscoroutinefunction(test):
 			result = asyncio.run(test(*args, **kwargs))
 		else:
 			result = test(*args, **kwargs)
@@ -63,14 +58,14 @@ class Runner:
 	def _run_test_cycle(self, test_name: str, test: Union[Awaitable, Callable]) -> Any:
 		"""
 		Run test launch cycle
-		
-		:param      test_name:  The test name
-		:type       test_name:  str
-		:param      test:       The test
-		:type       test:       TestInfo
-		
-		:returns:   function result
-		:rtype:     Any
+
+		:param		test_name:	The test name
+		:type		test_name:	str
+		:param		test:		The test
+		:type		test:		TestInfo
+
+		:returns:	function result
+		:rtype:		Any
 		"""
 		for n in range(test.pztdmeta.count_of_launchs):
 			if test.pztdmeta.arguments:
@@ -105,27 +100,31 @@ class Runner:
 			self.testcase.passed += 1
 
 	def _processing_tests_execution(
-		self, tags: List[str], test_num: int, test_name: str, test: Union[Awaitable, Callable]
+		self,
+		tags: List[str],
+		test_num: int,
+		test_name: str,
+		test: Union[Awaitable, Callable],
 	):
 		"""
 		Processing tests execution
 
-		:param      tags:                  The tags
-		:type       tags:                  List[str]
-		:param      test_num:              The test number
-		:type       test_num:              int
-		:param      test_name:             The test name
-		:type       test_name:             str
-		:param      test:                  The test
-		:type       test:                  TestInfo
+		:param		tags:				   The tags
+		:type		tags:				   List[str]
+		:param		test_num:			   The test number
+		:type		test_num:			   int
+		:param		test_name:			   The test name
+		:type		test_name:			   str
+		:param		test:				   The test
+		:type		test:				   TestInfo
 
-		:raises     SkippedTestException:  skip test
+		:raises		SkippedTestException:  skip test
 		"""
 		percent = int((test_num / self.tests_count) * 100)
 		results = []
 
 		lines = inspect.getsourcelines(test)[1]
-		test_name = f'{test_name}:{lines}'
+		test_name = f"{test_name}:{lines}"
 
 		try:
 			if tags and list(set(tags) & set(test.tags)):
@@ -134,7 +133,9 @@ class Runner:
 				marker = test.pztdmeta.marker
 
 				if marker.when:
-					raise SkippedTestException(marker.reason if marker.reason else 'SkippedTest')
+					raise SkippedTestException(
+						marker.reason if marker.reason else "SkippedTest"
+					)
 			elif isinstance(test.pztdmeta.marker, ExpectFailMarkup):
 				marker = test.pztdmeta.marker
 
@@ -145,7 +146,13 @@ class Runner:
 			results.append(result)
 		except SkippedTestException as ex:
 			self.testcase.skipped += 1
-			print_test_result(percent, test_name, status="skip", postmessage=str(ex), comment=test.pztdmeta.comment)
+			print_test_result(
+				percent,
+				test_name,
+				status="skip",
+				postmessage=str(ex),
+				comment=test.pztdmeta.comment,
+			)
 		except (AssertionError, TestError):
 			self.testcase.errors += 1
 
@@ -155,14 +162,16 @@ class Runner:
 					test_name,
 					status="error",
 					output=f"{traceback.format_exc()}",
-					postmessage=marker.reason if marker.reason else 'XFAIL', comment=test.pztdmeta.comment
+					postmessage=marker.reason if marker.reason else "XFAIL",
+					comment=test.pztdmeta.comment,
 				)
 			else:
 				print_test_result(
 					percent,
 					test_name,
 					status="error",
-					output=f"{traceback.format_exc()}", comment=test.pztdmeta.comment
+					output=f"{traceback.format_exc()}",
+					comment=test.pztdmeta.comment,
 				)
 		else:
 			self.testcase.passed += 1
@@ -172,11 +181,11 @@ class Runner:
 	def launch_test_chain(self, tags: List[str]):
 		"""
 		Launch test chain
-		
-		:raises     SkippedTestException:  skip test
-		
-		:param      tags:  The tags
-		:type       tags:  List[str]
+
+		:raises		SkippedTestException:  skip test
+
+		:param		tags:  The tags
+		:type		tags:  List[str]
 		"""
 		for test_num, (test_name, test) in enumerate(self.tests.items(), start=1):
 			self._processing_tests_execution(tags, test_num, test_name, test)

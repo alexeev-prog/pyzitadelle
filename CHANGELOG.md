@@ -1,3 +1,9 @@
+commit 9e30f81c0689a48a052eeac7600248723eb276a9
+Author: alexeev-prog <alexeev.dev@mail.ru>
+Date:   Sat Feb 8 00:15:20 2025 +0700
+
+    improve code, improve skip, add pztdmetadata
+
 commit c4ca66c44704b0699ad58f04df511a3f9ca91e20
 Author: alexeev-prog <alexeev.dev@mail.ru>
 Date:   Thu Feb 6 23:30:59 2025 +0700

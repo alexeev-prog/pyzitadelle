@@ -82,8 +82,8 @@ def print_test_result(
 	label: str,
 	status: Optional[str] = "success",
 	output: Optional[Any] = None,
-	postmessage: Optional[str] = '',
-	comment: Optional[str] = None
+	postmessage: Optional[str] = "",
+	comment: Optional[str] = None,
 ):
 	"""
 	Prints a test result.
@@ -101,7 +101,7 @@ def print_test_result(
 	width = shutil.get_terminal_size().columns - 13 - len(date) - len(postmessage)
 
 	if comment is not None:
-		label = f'[dim]{label}[/dim] [white]{comment}[/white]'
+		label = f"[dim]{label}[/dim] [white]{comment}[/white]"
 		width += 26
 
 	if status == "success":

@@ -1,10 +1,18 @@
+from functools import partial, wraps
 from time import time
-from functools import wraps, partial
-from typing import Any, Callable, List, Dict, Optional, Awaitable, Union, Tuple
+from typing import Any, Awaitable, Callable, Dict, List, Optional, Tuple, Union
+
 from pyzitadelle.exceptions import TestError
 from pyzitadelle.reporter import print_header, print_results_table
 from pyzitadelle.sessions import Runner
-from pyzitadelle.standard import Argument, Each, Fixture, CollectionMetadata, SkipMarker, ExpectFailMarkup
+from pyzitadelle.standard import (
+	Argument,
+	CollectionMetadata,
+	Each,
+	ExpectFailMarkup,
+	Fixture,
+	SkipMarker,
+)
 
 
 def skip(
@@ -52,7 +60,7 @@ def expectfail(
 
 	func = func_or_reason
 	marker = ExpectFailMarkup(reason=reason, when=when)
-	
+
 	if hasattr(func, "pztdmeta"):
 		func.pztdmeta.marker = marker  # type: ignore[attr-defined]
 	else:
@@ -104,8 +112,10 @@ class TestCase(BaseTestCase):
 		super().__init__(label)
 
 	def fixture(self):
-		def wrapper(func: Union[Awaitable, Callable], *args, **kwargs) -> Union[Awaitable, Callable]:
-			if not hasattr(func, 'pztdmeta'):
+		def wrapper(
+			func: Union[Awaitable, Callable], *args, **kwargs
+		) -> Union[Awaitable, Callable]:
+			if not hasattr(func, "pztdmeta"):
 				func.pztdmeta = CollectionMetadata(is_fixture=True)
 			else:
 				func.pztdmeta.is_fixture = True
@@ -113,53 +123,61 @@ class TestCase(BaseTestCase):
 			self.fixtures[func.__name__] = Fixture(handler=func)
 
 			return func(*args, **kwargs)
+
 		return wrapper
 
 	def test(
-		self, comment: str = None, 
-		tags: List[str] = [], 
+		self,
+		comment: str = None,
+		tags: List[str] = [],
 		count_of_launchs: int = 1,
 		arguments: Tuple[Argument] = (),
 	) -> Callable:
 		"""
 		Add test to environment
-		
-		:param      comment:           The comment
-		:type       comment:           str
-		:param      tags:              The tags
-		:type       tags:              Array
-		:param      count_of_launchs:  The count of launchs
-		:type       count_of_launchs:  int
-		:param      skip_test:         The skip test
-		:type       skip_test:         bool
-		:param      arguments:         The arguments
-		:type       arguments:         Tuple[Argument]
-		
-		:returns:   wrapper
-		:rtype:     Callable
+
+		:param		comment:		   The comment
+		:type		comment:		   str
+		:param		tags:			   The tags
+		:type		tags:			   Array
+		:param		count_of_launchs:  The count of launchs
+		:type		count_of_launchs:  int
+		:param		skip_test:		   The skip test
+		:type		skip_test:		   bool
+		:param		arguments:		   The arguments
+		:type		arguments:		   Tuple[Argument]
+
+		:returns:	wrapper
+		:rtype:		Callable
 		"""
 
-		def wrapper(func: Union[Awaitable, Callable], *args, **kwargs) -> Union[Awaitable, Callable]:
+		def wrapper(
+			func: Union[Awaitable, Callable], *args, **kwargs
+		) -> Union[Awaitable, Callable]:
 			"""
 			Wrapper for @test decorator
 
-			:param      func:    The function
-			:type       func:    Union[Awaitable, Callable]
-			:param      args:    The arguments
-			:type       args:    list
-			:param      kwargs:  The keywords arguments
-			:type       kwargs:  dictionary
+			:param		func:	 The function
+			:type		func:	 Union[Awaitable, Callable]
+			:param		args:	 The arguments
+			:type		args:	 list
+			:param		kwargs:	 The keywords arguments
+			:type		kwargs:	 dictionary
 
-			:returns:   function
-			:rtype:     Union[Awaitable, Callable]
+			:returns:	function
+			:rtype:		Union[Awaitable, Callable]
 			"""
-			if not hasattr(func, 'pztdmeta'):
-				func.pztdmeta = CollectionMetadata(comment=comment.format(**kwargs) if comment is not None else None,
-													tags=tags,
-													arguments=arguments,
-													count_of_launchs=count_of_launchs)
+			if not hasattr(func, "pztdmeta"):
+				func.pztdmeta = CollectionMetadata(
+					comment=comment.format(**kwargs) if comment is not None else None,
+					tags=tags,
+					arguments=arguments,
+					count_of_launchs=count_of_launchs,
+				)
 			else:
-				func.pztdmeta.comment = comment.format(**kwargs) if comment is not None else None
+				func.pztdmeta.comment = (
+					comment.format(**kwargs) if comment is not None else None
+				)
 				func.pztdmeta.tags = tags
 				func.pztdmeta.arguments = arguments
 				func.pztdmeta.count_of_launchs = count_of_launchs

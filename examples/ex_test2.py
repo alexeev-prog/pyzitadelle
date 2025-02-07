@@ -1,5 +1,5 @@
-from pyzitadelle.test_case import TestCase, expect, skip, expectfail
 from pyzitadelle.standard import Argument
+from pyzitadelle.test_case import TestCase, expect, expectfail, skip
 
 firstcase = TestCase()
 debug = False
@@ -15,7 +15,11 @@ async def example_test1(a: int = 2):
 	return a + 1
 
 
-@firstcase.test(comment="example with Argument", tags=["assert"], arguments=(Argument(args=[2]), Argument(args=[3])))
+@firstcase.test(
+	comment="example with Argument",
+	tags=["assert"],
+	arguments=(Argument(args=[2]), Argument(args=[3])),
+)
 def example_test2(a: int):
 	assert add(a, 2) == a + 2
 	return a + 2

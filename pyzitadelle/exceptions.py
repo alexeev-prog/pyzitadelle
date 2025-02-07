@@ -41,7 +41,7 @@ class SkippedTestException(TestError):
 		if args:
 			self.message = args[0]
 		else:
-			self.message = 'SkippedTest'
+			self.message = "SkippedTest"
 
 	def __str__(self):
 		"""
@@ -50,7 +50,7 @@ class SkippedTestException(TestError):
 		:returns:	String representation of the object.
 		:rtype:		str
 		"""
-		return f'{self.message}'
+		return f"{self.message}"
 
 
 class TestValidationError(TestError):
