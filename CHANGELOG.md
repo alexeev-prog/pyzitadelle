@@ -1,3 +1,9 @@
+commit 01ccec47536459797e6cfce9a1d556b6da1af776
+Author: alexeev-prog <alexeev.dev@mail.ru>
+Date:   Sat Feb 8 00:19:16 2025 +0700
+
+    style/docs: fix docs, improve code style
+
 commit 9e30f81c0689a48a052eeac7600248723eb276a9
 Author: alexeev-prog <alexeev.dev@mail.ru>
 Date:   Sat Feb 8 00:15:20 2025 +0700
