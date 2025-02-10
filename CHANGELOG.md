@@ -1,3 +1,9 @@
+commit 841c970c050a89c4c07650be37b8be742074d81f
+Author: alexeev-prog <alexeev.dev@mail.ru>
+Date:   Mon Feb 10 22:14:24 2025 +0700
+
+    docs: improve docs
+
 commit 21b474651854c76e3f881852574772701c4d03d6
 Author: alexeev-prog <alexeev.dev@mail.ru>
 Date:   Sat Feb 8 23:53:15 2025 +0700

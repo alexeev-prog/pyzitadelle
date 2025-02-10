@@ -122,7 +122,7 @@ class TestCase(BaseTestCase):
 
 			self.fixtures[func.__name__] = Fixture(handler=func)
 
-			print('\nFixtures in DEV\n')
+			print("\nFixtures in DEV\n")
 
 			return func(*args, **kwargs)
 

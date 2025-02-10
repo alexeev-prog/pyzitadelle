@@ -17,12 +17,12 @@ class TestOutcome(Enum):
 	Enumeration representing all possible outcomes of an attempt at running a test.
 
 	Attributes:
-									PASS: Represents a passing test outcome - no errors raised, no assertions failed, the test ran to completion.
-									FAIL: The test failed in some way - e.g. an assertion failed or an exception was raised.
-									SKIP: The test was skipped.
-									XFAIL: The test was expected to fail, and it did fail.
-									XPASS: The test was expected to fail, however it unexpectedly passed.
-									DRYRUN: The test was not executed because the test session was a dry-run.
+																	PASS: Represents a passing test outcome - no errors raised, no assertions failed, the test ran to completion.
+																	FAIL: The test failed in some way - e.g. an assertion failed or an exception was raised.
+																	SKIP: The test was skipped.
+																	XFAIL: The test was expected to fail, and it did fail.
+																	XPASS: The test was expected to fail, however it unexpectedly passed.
+																	DRYRUN: The test was not executed because the test session was a dry-run.
 	"""
 
 	PASS = auto()

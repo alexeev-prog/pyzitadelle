@@ -11,6 +11,20 @@ from rich.table import Table
 def print_results_table(
 	total: int, passed: int, warnings: int, errors: int, skipped: int
 ):
+	"""
+	Prints a results table.
+
+	:param      total:     The total
+	:type       total:     int
+	:param      passed:    The passed
+	:type       passed:    int
+	:param      warnings:  The warnings
+	:type       warnings:  int
+	:param      errors:    The errors
+	:type       errors:    int
+	:param      skipped:   The skipped
+	:type       skipped:   int
+	"""
 	table = Table(title="Tests Result", expand=True, box=box.ROUNDED)
 
 	table.add_column("N", style="cyan")
@@ -61,9 +75,9 @@ def print_header(label: str, plus_len: int = 0, style: str = "bold"):
 def print_platform(items: int):
 	"""
 	Prints a platform.
-
-	:param		items:	The items
-	:type		items:	int
+	
+	:param      items:  The items
+	:type       items:  int
 	"""
 	print(f"[white]platform: [reset]{platform.platform()}[/white]")
 	print(f"[white]version: [reset]{platform.version()}[/white]")
@@ -87,15 +101,19 @@ def print_test_result(
 ):
 	"""
 	Prints a test result.
-
-	:param		percent:  The percent
-	:type		percent:  str
-	:param		label:	  The label
-	:type		label:	  str
-	:param		status:	  The status
-	:type		status:	  str
-	:param		output:	  The output
-	:type		output:	  Any
+	
+	:param      percent:      The percent
+	:type       percent:      str
+	:param      label:        The label
+	:type       label:        str
+	:param      status:       The status
+	:type       status:       str
+	:param      output:       The output
+	:type       output:       Any
+	:param      postmessage:  The postmessage
+	:type       postmessage:  str
+	:param      comment:      The comment
+	:type       comment:      str
 	"""
 	date = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 	width = shutil.get_terminal_size().columns - 13 - len(date) - len(postmessage)
