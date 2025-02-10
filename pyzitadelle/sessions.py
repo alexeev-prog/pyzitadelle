@@ -124,7 +124,7 @@ class Runner:
 		results = []
 
 		lines = inspect.getsourcelines(test)[1]
-		test_name = f"{test_name}:{lines}"
+		test_name = f"{test_name}:[line {lines}]"
 
 		try:
 			if tags and list(set(tags) & set(test.tags)):

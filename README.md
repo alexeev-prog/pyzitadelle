@@ -80,7 +80,7 @@ Once installed, you can start using the library in your Python projects. Check o
 You can view examples at [examples directory](./examples).
 
 ```python
-from pyzitadelle.standard import Argument
+ffrom pyzitadelle.standard import Argument
 from pyzitadelle.test_case import TestCase, expect, expectfail, skip
 
 firstcase = TestCase()

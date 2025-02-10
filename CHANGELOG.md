@@ -1,3 +1,9 @@
+commit 21b474651854c76e3f881852574772701c4d03d6
+Author: alexeev-prog <alexeev.dev@mail.ru>
+Date:   Sat Feb 8 23:53:15 2025 +0700
+
+    style: fix code style
+
 commit 01ccec47536459797e6cfce9a1d556b6da1af776
 Author: alexeev-prog <alexeev.dev@mail.ru>
 Date:   Sat Feb 8 00:19:16 2025 +0700
